@@ -34,6 +34,7 @@ public class retrieveDirection {
 
             data = sb.toString();
             br.close();
+            LOGGER.info("data is writing into direction.json file..");
             PrintWriter printWriter = new PrintWriter("data/direction.json");
             printWriter.print(data);
 
