@@ -5,7 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Logger;
 
-public class retrieveDirection {
+public class DirectionRetriever {
     private static Logger LOGGER = Logger.getLogger("InfoLogging");
 
     public void downloadUrl(String strUrl) throws IOException {
@@ -25,21 +25,21 @@ public class retrieveDirection {
             LOGGER.info("Reading data from url....");
             iStream = urlConnection.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-            StringBuffer sb = new StringBuffer();
 
+
+            StringBuffer sb = new StringBuffer();
             String line = "";
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter("data/direction.json"));
+                out.write(sb.toString());  //Replace with the string
+                out.close();
+            } catch (IOException e) {
+                System.out.println("Exception ");
+            }
 
-            data = sb.toString();
-            br.close();
-            LOGGER.info("data is writing into direction.json file..");
-            PrintWriter printWriter = new PrintWriter("data/direction.json");
-            printWriter.print(data);
-
-        } catch (Exception e) {
-            LOGGER.warning(e.getMessage());
         } finally {
             iStream.close();
             urlConnection.disconnect();
